@@ -9,6 +9,7 @@
   "author": "m0khtar",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "^0.8.3",
     "body-parser": "^1.13.2",
     "compression": "^1.5.1",
     "connect-flash": "^0.1.1",

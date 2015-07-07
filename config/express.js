@@ -66,7 +66,8 @@ module.exports = function() {
 	app.use('/static', express.static('public'));
 
 	//routes
-	require('../app/routes/index')(app);
+	app.use('/api', require('../app/routes/index'));
+	
 	//load all routes first
 	if ('development' == app.get('env')) {
 		app.use(errorHandler());
