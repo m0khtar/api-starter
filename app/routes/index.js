@@ -1,19 +1,18 @@
 var router = require("express").Router();
+
 var homeController = require('../controllers/home'),
 	usersController = require('../controllers/users');
 
-function isAuthenticated(req, res, next) {
-	if (req.isAuthenticated())
-		return next();
-	res.redirect('/login');
-}
+var md = require('../middlewares/index');
+
+/********************************/
 
 router.route('/')
 	.get(homeController.index);
 
 //users
-router.route('/login')
-	.post(usersController.login);
+router.route('/authenticate')
+	.post(usersController.authenticate);
 router.route('/signup')
 	.post(usersController.signup);
 //logout
@@ -23,10 +22,11 @@ router.route('/logout')
 
 //users
 router.route('/users')
-	.get(usersController.list);
+	.get(md.isAuthenticated, usersController.list);
 router.route('/users/:id')
-	.get(usersController.read);
+	.get(md.isAuthenticated, usersController.read);
 
+/********************************/
 
 //setup
 router.get('/setup', function(req, res) {
