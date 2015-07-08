@@ -2,7 +2,6 @@ var config = require('./config'),
 	express = require('express'),
 	favicon = require('serve-favicon'),
 	bodyParser = require('body-parser'),
-	cookieParser = require('cookie-parser'),
 	methodOverride = require('method-override'),
 	compress = require('compression'),
 	session = require('express-session'),
@@ -27,7 +26,6 @@ module.exports = function() {
 	} else {
 		app.use(compress());
 	}
-	app.use(cookieParser());
 	app.use(bodyParser.json());
 	app.use(bodyParser.urlencoded({
 		extended: true
@@ -53,7 +51,7 @@ module.exports = function() {
 		next();
 	});
 	app.use(lusca({
-		csrf: true,
+		csrf: false,
 		xframe: 'SAMEORIGIN',
 		hsts: {
 			maxAge: 31536000,
