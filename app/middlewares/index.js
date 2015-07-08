@@ -3,7 +3,14 @@ var jwt = require('jsonwebtoken'),
 
 module.exports = {
 	isAuthenticated: function(req, res, next) {
-		var token = req.body.token || req.query.token || req.headers['x-access-token'];
+		if (!req.headers || !req.headers.authorization) {
+			return res.status(401).send({
+				message: 'Authorization header is missing.'
+			});
+		}
+		
+		var token = req.headers.authorization.split(' ')[1];
+
 		if (token) {
 			jwt.verify(token, config.secret, function(err, decoded) {
 				if (err) {
