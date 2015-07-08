@@ -17,8 +17,6 @@ module.exports = function() {
 
 	//config
 	app.set('port', process.env.PORT || 3000);
-	app.set('views', path.join(__dirname, '../app/views'));
-	app.set('view engine', 'jade');
 	app.locals.env = app.get('env');
 
 	//middleware
@@ -66,9 +64,8 @@ module.exports = function() {
 	app.use('/static', express.static('public'));
 
 	//routes
-	app.use('/', require('../app/routes/index'));
-	app.use('/api', require('../app/routes/api'));
-
+	app.use('/api', require('../app/routes/index'));
+	
 	//load all routes first
 	if ('development' == app.get('env')) {
 		app.use(errorHandler());
