@@ -17,7 +17,7 @@ router.route('/logout')
 router.route('/users')
 	.get(md.isAuthenticated, usersController.list);
 router.route('/users/:id')
-	.get(md.isAuthenticated, usersController.read);
+	.get(md.isAuthenticated, md.isAdmin, usersController.read);
 
 /********************************/
 

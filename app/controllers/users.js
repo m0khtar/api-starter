@@ -1,5 +1,6 @@
 var config = require('../../config/config'),
 	jwt = require('jsonwebtoken'),
+	_ = require("lodash"),
 	User = require('mongoose').model('User');
 
 module.exports = {
@@ -18,25 +19,38 @@ module.exports = {
 		});
 	},
 	authenticate: function(req, res) {
+		var email = req.body.email,
+			password = req.body.password;
+
+		if (_.isEmpty(email) || _.isEmpty(password)) {
+			res.status(401).send({
+				success: false,
+				message: 'Authentication failed. Wrong username / password.'
+			});
+		}
+
 		User.findOne({
 			email: req.body.email
 		}, function(err, user) {
 			if (err) res.json(err);
 			if (!user) {
-				res.json({
+				res.status(401).send({
 					success: false,
 					message: 'Authentication failed. Wrong username / password.'
 				});
-			} else if (user && req.body.password) {
+			} else {
 				//check password
 				user.validPassword(req.body.password, function(err, isMatch) {
-					if (err) res.json({
+					if (err) res.status(500).send({
 						success: false,
 						message: 'Authentication failed.',
 						error: err
 					});
 					if (isMatch) {
-						var token = jwt.sign(user, config.secret, {
+						var token = jwt.sign({
+							user: user
+						}, config.secret, {
+							audience: 'mo',
 							expiresInMinutes: 1440 // expires in 24 hours
 						});
 						res.json({
@@ -44,16 +58,11 @@ module.exports = {
 							token: token
 						});
 					} else {
-						res.json({
+						res.status(401).send({
 							success: false,
 							message: 'Authentication failed. Wrong username / password.'
 						});
 					}
-				});
-			} else {
-				res.json({
-					success: false,
-					message: 'Authentication failed. Wrong username / password.'
 				});
 			}
 		});
@@ -61,7 +70,5 @@ module.exports = {
 	signup: function(req, res, next) {
 
 	},
-	logout: function(req, res) {
-
-	}
+	logout: function(req, res) {}
 };

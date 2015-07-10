@@ -2,6 +2,7 @@ var config = require('./config'),
 	express = require('express'),
 	favicon = require('serve-favicon'),
 	bodyParser = require('body-parser'),
+	cors = require('cors'),
 	methodOverride = require('method-override'),
 	compress = require('compression'),
 	session = require('express-session'),
@@ -28,6 +29,7 @@ module.exports = function() {
 	} else {
 		app.use(compress());
 	}
+	app.use(cors());
 	app.use(bodyParser.json());
 	app.use(bodyParser.urlencoded({
 		extended: true

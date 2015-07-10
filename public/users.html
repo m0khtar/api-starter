@@ -1,0 +1,20 @@
+<div>
+	<table class="table table-hover table-condensed">
+		<tr>
+			<th>
+				<input ng-model="search.username">
+			</th>
+			<th>
+				<input ng-model="search.email">
+			</th>
+		</tr>
+		<tr ng-repeat="u in users | filter:search">
+			<td>
+				{{u.username}}
+			</td>
+			<td>
+				{{u.email}}
+			</td>
+		</tr>
+	</table>
+</div>

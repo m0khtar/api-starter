@@ -8,11 +8,12 @@ module.exports = {
 				message: 'Authorization header is missing.'
 			});
 		}
-		
 		var token = req.headers.authorization.split(' ')[1];
 
 		if (token) {
-			jwt.verify(token, config.secret, function(err, decoded) {
+			jwt.verify(token, config.secret, {
+				ignoreExpiration: false
+			}, function(err, decoded) {
 				if (err) {
 					return res.json({
 						success: false,
@@ -31,6 +32,6 @@ module.exports = {
 		}
 	},
 	isAdmin: function(req, res, next) {
-
+		next();
 	}
 };
