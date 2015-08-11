@@ -24,7 +24,7 @@ Factory
  */
 demoApp.factory('userFactory', function($http) {
 	var factory = {};
-	var baseURl = "http://192.168.101.134:3000/api/users";
+	var baseURl = "http://localhost:3000/api/users";
 	factory.getUsers = function() {
 		return $http.get(baseURl, {
 			headers: {
